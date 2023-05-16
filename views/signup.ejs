@@ -1,0 +1,28 @@
+<%- include("./partials/head.ejs") %>
+
+    <!-- scripts -->
+    <script src="/js/signup.js" defer></script>
+
+    <title>Signup | Chinpokomon</title>
+</head>
+<body>
+    <main>
+        <%- include("./partials/nav.ejs") %>
+
+        <section>
+            <form class="form">
+                <label for="username">Brukernavn: </label>
+                <input type="text" id="username" name="username" required>
+                <br>
+                <label for="email">E-Post: </label>
+                <input type="email" id="email" name="email" required>
+                <br>
+                <label for="password">Passord: </label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                <button>Submit</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
