@@ -44,30 +44,30 @@ module.exports.signup_post = async (req, res) => {
     const { username, email, password } = req.body;
     // try signup
     try {
-        console.log( username, email, password );
         const user = await User.create({ username, email, password });
         const token = createJWT(user.email);
         if(user) {
             res.status(201).cookie("jwt", token, {maxAge : 604800000, httpOnly : true}).redirect("/");
         }   
     } catch (err) {
+        console.log(err);
         res.status(400).json({ error : err });
     }
 }
 
 module.exports.login_post = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
 
     // try login
     try {
         const user = await User.login( email, password );
+        console.log(user);
         const token = createJWT(user.email);
+        console.log(token);
         if(user) {
             res.status(200).cookie("jwt", token, {maxAge : 604800000, httpOnly : true}).redirect("/");
         }
     } catch (err) {
-        console.log(err);
         res.status(400).json({ error : err });
     }
 }

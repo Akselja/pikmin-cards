@@ -6,20 +6,20 @@ const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema({
     username : {
         type : String,
-        required : true,
-        unique : true
+        required : [true, "Username is required"],
+        unique : [true, "Username must be unique"]
     },
     email : {
         type : String,
-        required : true,
-        unique : true,
+        required : [true, "Email is reqiured"],
+        unique : [true, "Email must be unique"],
         lowercase : true,
-        validate :  isEmail
+        validate :  [isEmail, "Email must be valid"]
     },
     password : {
         type : String,
-        required : true,
-        minlength : 6
+        required : [true, "Password is required"],
+        minlength : [6, "Password must be at least 6 characters long"]
     }
 });
 
@@ -34,11 +34,19 @@ userSchema.pre("save", async function (next) {
 userSchema.statics.login = async function(email, password) {
     const user = await this.findOne({ email });
     if(user) {
-        const auth = bcrypt.compare(password, user.password);
+        console.log(password, user.password)
+        const auth = await bcrypt.compare(password, user.password);
         if(auth) {
             return user;
+        } else {
+            // error message
+            throw new Error("incorrect password");
         }
+    } else {
+        // error message
+        throw new Error("incorrect email");
     }
+    
 }   
 
 const User = mongoose.model("user", userSchema);

@@ -4,8 +4,8 @@ form.addEventListener("submit", async e => {
     e.preventDefault();
 
     // store input fields
-    const email = form.children[1].value;
-    const password = form.children[4].value;
+    const email = document.querySelector("#email").value;
+    const password = document.querySelector("#password").value;
 
     // post
     try {
@@ -15,9 +15,13 @@ form.addEventListener("submit", async e => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ email, password })
+    })
+    .then(result => {
+        console.log(result.json().then(value => {
+            console.log(value)
+        }))
     });
     } catch(err) {
-        const result = await (res.json());
+        console.log(err);
     }
-    
 })
